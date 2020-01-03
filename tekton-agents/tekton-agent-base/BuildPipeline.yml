@@ -1,0 +1,50 @@
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: containers-quickstarts-git
+spec:
+  type: git
+  params:
+    - name: url
+      value: https://github.com/garethahealy/containers-quickstarts.git
+    - name: revision
+      value: tekton-agents
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: tekton-agent-base-image
+spec:
+  type: image
+  params:
+    - name: url
+      value: image-registry.openshift-image-registry.svc:5000/containers-quickstarts/tekton-agent-base:latest
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: tekton-agent-base-build-pipeline
+spec:
+  resources:
+    - name: containers-quickstarts-git
+      type: git
+    - name: tekton-agent-base-image
+      type: image
+  tasks:
+    - name: build-tekton-agent-base
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      resources:
+        inputs:
+          - name: source
+            resource: containers-quickstarts-git
+        outputs:
+          - name: image
+            resource: tekton-agent-base-image
+      params:
+        - name: DOCKERFILE
+          value: tekton-agents/tekton-agent-base/Dockerfile
+        - name: TLSVERIFY
+          value: "false"

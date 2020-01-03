@@ -1,0 +1,22 @@
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: base-agent
+spec:
+  steps:
+    - name: check-git-installed
+      image: image-registry.openshift-image-registry.svc:5000/containers-quickstarts/tekton-agent-base:latest
+      command:
+        - git
+        - --version
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: tekton-agent-base-test-pipeline
+spec:
+  tasks:
+    - name: test-tekton-agent-base
+      taskRef:
+        name: base-agent

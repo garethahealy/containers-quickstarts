@@ -1,0 +1,85 @@
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: containers-quickstarts-git
+spec:
+  type: git
+  params:
+    - name: url
+      value: https://github.com/garethahealy/containers-quickstarts.git
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: ansible-playbook
+spec:
+  inputs:
+    params:
+      - name: REQUIRMENTS_PATH
+        description: todo
+        type: string
+      - name: ROLE_PATH
+        description: todo
+        type: string
+      - name: INVENTORY_PATH
+        description: todo
+        type: string
+      - name: PLAYBOOK_NAME
+        description: todo
+        type: string
+      - name: PLAYBOOK_ADDITIONAL_ARGS
+        description: todo
+        type: string
+    resources:
+      - name: ansible-playbook-source
+        type: git
+  steps:
+    - name: sleep
+      image: image-registry.openshift-image-registry.svc:5000/containers-quickstarts/tekton-agent-ansible:latest
+      command: ["sleep", "120"]
+    - name: install-requirments
+      image: image-registry.openshift-image-registry.svc:5000/containers-quickstarts/tekton-agent-ansible:latest
+      command:
+        - /opt/rh/rh-python36/root/usr/bin/ansible-galaxy
+        - install
+        - --role-file=$(inputs.params.REQUIRMENTS_PATH)
+        - --roles-path=$(inputs.params.ROLE_PATH)
+        - -vvv
+      workingDir: /workspace/ansible-playbook-source
+    - name: run-playbook
+      image: image-registry.openshift-image-registry.svc:5000/containers-quickstarts/tekton-agent-ansible:latest
+      command:
+        - /opt/rh/rh-python36/root/usr/bin/ansible-galaxy
+        - -i $(inputs.params.INVENTORY_PATH)
+        - $(inputs.params.PLAYBOOK_NAME)
+        - $(inputs.params.PLAYBOOK_ADDITIONAL_ARGS)
+      workingDir: /workspace/ansible-playbook-source
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: tekton-agent-ansible-test-pipeline
+spec:
+  resources:
+    - name: containers-quickstarts-git
+      type: git
+  tasks:
+    - name: test-tekton-agent-ansible
+      taskRef:
+        name: ansible-playbook
+      resources:
+        inputs:
+          - name: ansible-playbook-source
+            resource: containers-quickstarts-git
+      params:
+        - name: REQUIRMENTS_PATH
+          value: requirements.yml
+        - name: ROLE_PATH
+          value: galaxy
+        - name: INVENTORY_PATH
+          value: .applier/hosts
+        - name: PLAYBOOK_NAME
+          value: galaxy/openshift-applier/playbooks/openshift-cluster-seed.yml
+        - name: PLAYBOOK_ADDITIONAL_ARGS
+          value: ""
