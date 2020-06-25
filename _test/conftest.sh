@@ -49,6 +49,7 @@ load _helpers
   helm_template "eap/chart" "--set sourceUri=conftest"
 
   run conftest test /tmp/eap/chart/eap72/templates --output tap
+  echo "$output"
   print_err "$status" "$output"
   [ "$status" -eq 0 ]
 }
