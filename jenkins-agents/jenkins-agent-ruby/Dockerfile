@@ -1,6 +1,7 @@
 FROM quay.io/openshift/origin-jenkins-agent-base:4.9
 
 ARG RUBY_VERSION=3.1
+# renovate: datasource=repology depName=homebrew/openshift-cli
 ARG OC_VERSION=4.14
 
 ENV SUMMARY="Platform for building and running Ruby $RUBY_VERSION applications" \
@@ -41,7 +42,7 @@ RUN rm -f /etc/yum.repos.d/*.repo && \
     dnf clean all -y && \
     rm -rf /var/cache/dnf
 
-RUN curl -sL https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable-${OC_VERSION}/openshift-client-linux.tar.gz \
+RUN curl -sL https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${OC_VERSION}/openshift-client-linux.tar.gz \
     | tar zxf - -C /usr/local/bin oc kubectl
 
 # Copy extra files to the image.
