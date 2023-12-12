@@ -66,6 +66,11 @@ then
   docker tag localhost/${AGENT}:latest ${AGENT}:latest
   kind load docker-image ${AGENT}:latest
 
+  podman pull jenkins/jenkins:2.332.2-jdk11
+  podman pull kiwigrid/k8s-sidecar:1.15.0
+  kind load docker-image jenkins/jenkins:2.332.2-jdk11
+  kind load docker-image kiwigrid/k8s-sidecar:1.15.0
+
   # Create Nginx Ingress controller
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
   echo "### Wait for Ingress controller to install ###"
@@ -102,7 +107,7 @@ then
 
   kubectl get statefulsets -n jenkins
 
-  sleep 30
+  sleep 60
   kubectl describe statefulsets/jenkins -n jenkins
   kubectl logs statefulsets/jenkins -n jenkins
   kubectl rollout status statefulsets/jenkins --watch=true --timeout=5m -n jenkins
