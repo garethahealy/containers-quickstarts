@@ -82,6 +82,16 @@ then
   # Use Helm to deploy and configure Jenkins
   helm repo add jenkinsci https://charts.jenkins.io --force-update
   helm repo update
+  echo "### Jenkins content will look like... ###"
+  helm template jenkins \
+      --version ${JENKINS_CHART_VERSION} \
+      -n jenkins --create-namespace \
+      -f ${SCRIPT_DIR}/jenkins-values.yaml \
+      -f ${TPL_TEMP}/podtemplate.yaml \
+      -f ${TPL_TEMP}/jenkins-casc-config-scripts.yaml \
+      jenkinsci/jenkins
+
+  echo "### Jenkins install ###"
   helm install jenkins \
     --version ${JENKINS_CHART_VERSION} \
     -n jenkins --create-namespace \
@@ -90,6 +100,9 @@ then
     -f ${TPL_TEMP}/jenkins-casc-config-scripts.yaml \
     jenkinsci/jenkins
 
+  kubectl get statefulsets -n jenkins
+  kubectl get pods -n jenkins
+  
   # Make sure Jenkins is available
   echo "### Wait for Jenkins instance to become ready ###"
   do_until "http://localhost/login" "" 200 300 "Timed out waiting for Jenkins to become ready..."
