@@ -101,6 +101,10 @@ then
     jenkinsci/jenkins
 
   kubectl get statefulsets -n jenkins
+
+  sleep 30
+  kubectl describe statefulsets/jenkins -n jenkins
+  kubectl logs statefulsets/jenkins -n jenkins
   kubectl rollout status statefulsets/jenkins --watch=true --timeout=5m -n jenkins
 
   # Make sure Jenkins is available
