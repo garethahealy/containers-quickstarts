@@ -101,8 +101,8 @@ then
     jenkinsci/jenkins
 
   kubectl get statefulsets -n jenkins
-  kubectl get pods -n jenkins
-  
+  kubectl rollout status statefulsets/jenkins --watch=true --timeout=5m -n jenkins
+
   # Make sure Jenkins is available
   echo "### Wait for Jenkins instance to become ready ###"
   do_until "http://localhost/login" "" 200 300 "Timed out waiting for Jenkins to become ready..."
