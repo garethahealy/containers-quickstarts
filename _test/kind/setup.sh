@@ -61,9 +61,11 @@ then
   then
     kind create cluster --config ${SCRIPT_DIR}/kind-config.yaml
   fi
+
   podman save ${AGENT}:latest | docker load
   docker tag localhost/${AGENT}:latest ${AGENT}:latest
   kind load docker-image ${AGENT}:latest
+
   # Create Nginx Ingress controller
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
   echo "### Wait for Ingress controller to install ###"
@@ -71,10 +73,12 @@ then
     --for=condition=ready pod \
     --selector=app.kubernetes.io/component=controller \
     --timeout=90s
+
   # Would like to find a cleaner approach to configure the podTemplate and Jenkins job below
   TPL_TEMP=$(mktemp -d)
   JENKINS_AGENT="${AGENT}" envsubst < ${SCRIPT_DIR}/jenkins-podtemplate.yaml > ${TPL_TEMP}/podtemplate.yaml
   JENKINS_AGENT="${AGENT}" JENKINSFILE=$(sed '2,$s/^/                      /' ${AGENT_PATH}/Jenkinsfile.test) envsubst < ${SCRIPT_DIR}/jenkins-casc-config-scripts-template.yaml > ${TPL_TEMP}/jenkins-casc-config-scripts.yaml
+
   # Use Helm to deploy and configure Jenkins
   helm repo add jenkinsci https://charts.jenkins.io --force-update
   helm repo update
@@ -85,7 +89,8 @@ then
     -f ${TPL_TEMP}/podtemplate.yaml \
     -f ${TPL_TEMP}/jenkins-casc-config-scripts.yaml \
     jenkinsci/jenkins
-  # Make sure Jenkins is available 
+
+  # Make sure Jenkins is available
   echo "### Wait for Jenkins instance to become ready ###"
   do_until "http://localhost/login" "" 200 300 "Timed out waiting for Jenkins to become ready..."
 
@@ -97,6 +102,7 @@ then
     echo "Failed to create Jenkins Crumb, exiting..."
     exit 2
   fi
+
   token=$(curl -s http://localhost/me/descriptorByName/jenkins.security.ApiTokenProperty/generateNewToken --data 'newTokenName=foo' --user admin:${secret} -H "Jenkins-Crumb: ${crumb}" --cookie /tmp/cookies | jq -r '.data.tokenValue')
   if [ -z ${token} ]
   then
@@ -127,7 +133,9 @@ then
     sleep 2
     let "timeout += 2"
   done
+
   get_build_logs
+
   JOB_STATUS=$(curl -s http://localhost/job/containers-quickstarts/job/${AGENT}/lastBuild/api/json --user admin:${token} | jq -r '.result')
   kind delete cluster --name kind
   if [[ ${JOB_STATUS} != "SUCCESS" ]]
