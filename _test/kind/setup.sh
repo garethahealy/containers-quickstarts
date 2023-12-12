@@ -67,7 +67,11 @@ then
   kind load docker-image ${AGENT}:latest
 
   podman pull jenkins/jenkins:2.332.2-jdk11
+  podman save jenkins/jenkins:2.332.2-jdk11 | docker load
+
   podman pull kiwigrid/k8s-sidecar:1.15.0
+  podman save kiwigrid/k8s-sidecar:1.15.0 | docker load
+
   kind load docker-image jenkins/jenkins:2.332.2-jdk11
   kind load docker-image kiwigrid/k8s-sidecar:1.15.0
 
