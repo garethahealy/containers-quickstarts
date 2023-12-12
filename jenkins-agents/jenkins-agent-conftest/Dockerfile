@@ -1,8 +1,11 @@
 FROM quay.io/redhat-cop/jenkins-agent-python:v1.0
 # ^ needed to install the python yq library 🐍
 
+# renovate: datasource=github-releases depName=bats-core/bats-core
 ARG BATS_VERSION=1.2.0
+# renovate: datasource=github-releases depName=mikefarah/yq
 ARG YQ_VERSION=2.12.0
+# renovate: datasource=github-releases depName=open-policy-agent/conftest
 ARG CONFTEST_VERSION=0.23.0
 
 USER root

@@ -1,9 +1,11 @@
-FROM quay.io/openshift/origin-jenkins-agent-base:4.9
+FROM quay.io/openshift/origin-jenkins-agent-base:4.14
+
+# renovate: datasource=pypi depName=ansible-core
 ARG ANSIBLE_VERSION=2.9.13
 
 LABEL \
       release="1" \
-      version="4.8" \
+      version="4.14" \
       architecture="x86_64" \
       io.k8s.display-name="Jenkins Agent Ansible" \
       name="openshift/origin-jenkins-agent-ansible-ubi8" \
@@ -18,7 +20,7 @@ ARG PIP_PKGS="\
         paramiko \
         openshift \
         kubernetes \
-        ansible==${ANSIBLE_VERSION} \
+        ansible-core==${ANSIBLE_VERSION} \
 "
 ARG DNF_PKGS="\
         python38-pip \
