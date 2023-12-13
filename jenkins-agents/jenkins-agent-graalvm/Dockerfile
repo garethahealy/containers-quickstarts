@@ -4,7 +4,7 @@ ARG GRAAL_VERSION=20.3.3.0-Final
 ENV GRAALVM_HOME=/opt/mandrelJDK
 ENV GRAAL_CE_URL=https://github.com/graalvm/mandrel/releases/download/mandrel-${GRAAL_VERSION}/mandrel-java11-linux-amd64-${GRAAL_VERSION}.tar.gz
 # renovate: datasource=github-releases depName=helm/helm
-ARG HELM_VERSION=v3.6.3
+ARG HELM_VERSION=v3.13.2
 # renovate: datasource=github-releases depName=stedolan/jq
 ARG JQ_VERSION=1.6
 # renovate: datasource=repology depName=homebrew/openshift-cli

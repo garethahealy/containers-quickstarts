@@ -14,7 +14,7 @@ ENV ANSIBLE_CORE_VERSION=2.16.2
 # renovate: datasource=github-releases depName=stedolan/jq
 ENV JQ_VERSION=1.6
 # renovate: datasource=github-releases depName=helm/helm
-ENV HELM_VERSION=v3.11.3
+ENV HELM_VERSION=v3.13.2
 # renovate: datasource=github-releases depName=tektoncd/cli
 ENV TEKTON_VERSION=v0.33.0
 
