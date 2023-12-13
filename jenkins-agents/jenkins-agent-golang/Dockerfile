@@ -1,7 +1,7 @@
 FROM quay.io/openshift/origin-jenkins-agent-base:4.14
 
 # renovate: datasource=golang-version depName=go
-ARG GO_VERSION=1.20.0
+ARG GO_VERSION=1.21.5
 ARG SONAR_SCANNER_VERSION=4.5.0.2216
 ENV GOROOT=/usr/local/go \
     GOPATH=/usr/src/go
