@@ -6,7 +6,7 @@ ENV HOME=/home/tool-box \
 # renovate: datasource=repology depName=homebrew/openshift-cli
 ENV OC_VERSION=4.14.3
 # renovate: datasource=github-releases depName=openshift/rosa
-ENV ROSA_VERSION=v1.2.15
+ENV ROSA_VERSION=v1.2.32
 # renovate: datasource=github-releases depName=redhat-developer/odo
 ENV ODO_VERSION=v3.9.0
 # renovate: datasource=pypi depName=ansible-core
