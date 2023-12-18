@@ -11,7 +11,7 @@ RUN curl -L "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-
     mv /opt/gradle-bin/gradle-${GRADLE_VERSION} /opt/gradle
 
 # Runnable
-FROM ghcr.io/garethahealy/containers-quickstarts/jenkins-agent:v4.14
+FROM ghcr.io/garethahealy/containers-quickstarts/jenkins-agent:v4.14@sha256:2d75635d7fc34e2f069a3ebeea1826bd23c4ae44482f47de492bf20f44b5aabb
 
 LABEL name="redhat-cop/jenkins-agent-gradle" \
       io.k8s.display-name="Jenkins Agent gradle" \

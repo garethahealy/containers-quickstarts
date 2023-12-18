@@ -11,7 +11,7 @@ RUN curl -L "https://github.com/open-policy-agent/conftest/releases/download/${C
     conftest --version
 
 # Runnable
-FROM ghcr.io/garethahealy/containers-quickstarts/jenkins-agent-python:v4.14
+FROM ghcr.io/garethahealy/containers-quickstarts/jenkins-agent-python:v4.14@sha256:704022ba6cdb974662cb4aa7a4e686470434615265d67fcda82b8f61a07e211b
 
 LABEL name="redhat-cop/jenkins-agent-conftest" \
       io.k8s.display-name="Jenkins Agent Conftest" \
