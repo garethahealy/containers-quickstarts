@@ -32,11 +32,12 @@ COPY ubi8.repo /etc/yum.repos.d/ubi8.repo
 
 RUN dnf -y update && \
     dnf clean all
+   # rm -f /usr/bin/oc /usr/bin/kubectl
 
 COPY --from=builder /usr/local/bin/oc /usr/local/bin/oc
 COPY --from=builder /usr/local/bin/kubectl /usr/local/bin/kubectl
 
-RUN find / -name oc
+RUN find / -name kubectl
 
 USER 1001
 
