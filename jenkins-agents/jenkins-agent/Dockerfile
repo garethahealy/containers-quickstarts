@@ -36,6 +36,8 @@ RUN dnf -y update && \
 COPY --from=builder /usr/local/bin/oc /usr/local/bin/oc
 COPY --from=builder /usr/local/bin/kubectl /usr/local/bin/kubectl
 
+RUN find / -name oc
+
 USER 1001
 
 RUN oc version --client && \
