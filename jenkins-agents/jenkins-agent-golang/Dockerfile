@@ -1,5 +1,5 @@
 # Builder
-FROM registry.access.redhat.com/ubi9/ubi:9.3-1361.1699548029@sha256:6b95efc134c2af3d45472c0a2f88e6085433df058cc210abb2bb061ac4d74359 AS builder
+FROM registry.access.redhat.com/ubi9/ubi:9.3-1476@sha256:fc300be6adbdf2ca812ad01efd0dee2a3e3f5d33958ad6cd99159e25e9ee1398 AS builder
 
 RUN dnf install -y unzip && \
     dnf clean all
@@ -12,7 +12,7 @@ RUN curl -L "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/son
     chmod +x /opt/sonar-scanner/bin/sonar-scanner
 
 # renovate: datasource=golang-version depName=go
-ARG GO_VERSION=1.21.0
+ARG GO_VERSION=1.21.5
 RUN curl -L "https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz" -o /tmp/go.tar.gz && \
     tar -C /usr/local/ -xzf /tmp/go.tar.gz
 

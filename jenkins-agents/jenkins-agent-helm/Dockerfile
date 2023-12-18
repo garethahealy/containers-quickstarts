@@ -1,5 +1,5 @@
 # Builder
-FROM registry.access.redhat.com/ubi9/ubi:9.3-1361.1699548029@sha256:6b95efc134c2af3d45472c0a2f88e6085433df058cc210abb2bb061ac4d74359 AS builder
+FROM registry.access.redhat.com/ubi9/ubi:9.3-1476@sha256:fc300be6adbdf2ca812ad01efd0dee2a3e3f5d33958ad6cd99159e25e9ee1398 AS builder
 
 SHELL ["/bin/bash", "-c"]
 
@@ -8,7 +8,7 @@ ARG JQ_VERSION=1.6
 # renovate: datasource=github-releases depName=mikefarah/yq
 ARG YQ_VERSION=v4.40.5
 # renovate: datasource=github-releases depName=helm/helm
-ARG HELM_VERSION=v3.11.3
+ARG HELM_VERSION=v3.13.3
 # renovate: datasource=github-releases depName=open-policy-agent/conftest
 ARG CONFTEST_VERSION=v0.47.0
 # renovate: datasource=github-releases depName=stackrox/kube-linter
