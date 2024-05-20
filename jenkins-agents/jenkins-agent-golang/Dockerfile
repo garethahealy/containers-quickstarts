@@ -17,7 +17,7 @@ RUN curl -L "https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz" -o /tm
     tar -C /usr/local/ -xzf /tmp/go.tar.gz
 
 # Runnable
-FROM ghcr.io/redhat-cop/containers-quickstarts/jenkins-agent:v4.14
+FROM ghcr.io/redhat-cop/containers-quickstarts/jenkins-agent:v4.14@sha256:15e3a89f79ac56c608197dbbf1e412894d39b78127217dd771330612a774c92c
 
 LABEL name="redhat-cop/jenkins-agent-golang" \
       io.k8s.display-name="Jenkins Agent golang" \
